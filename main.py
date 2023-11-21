@@ -18,16 +18,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-class T_SIP_CREDENCIAIS_USUARIO(db.model):
-    __tablename__ = 'T_SIP_CREDENCIAIS_USUARIO' 
-    
+class T_SIP_USUARIO(db.model):
+    __tablename__ = 'T_SIP_USUARIO'
+    id_usuario = db.Column(db.Integer, primaryKey = True, autoincrement = True )
+    id_usuario_endereco = db.Column(db.Integer, foreignKey = True, autoincrement = True)
+    nm_completo = db.Column(db.String(250))
+    idade = db.Column(db.Integer)
+    email = db.Column(db.String(200))
+    telefone = db.Column(db.String(9))
+    nm_usuario = db.Column(db.String(100))
+    senha = db.Column(db.Float)
+    peso = db.Column(db.Float)
+    genero = db.Column(db.String(75))
+    data_nascimento = db.Column()
 
 
 
-@app.route('/login')
-def adicionar_login():
+@app.route('/usuario')
+def usuario():
     return 'ola'
-
 
 
 
