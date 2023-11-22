@@ -1,6 +1,6 @@
 import cx_Oracle
 from flask import Flask, render_template,request, redirect, url_for, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, Date
 from sqlalchemy import create_engine
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 
 class T_SIP_USUARIO(db.model):
     __tablename__ = 'T_SIP_USUARIO'
-    id_usuario = db.Column(db.Integer, primaryKey = True, autoincrement = True )
+    id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_usuario_endereco = db.Column(db.Integer, foreignKey = True, autoincrement = True)
     nm_completo = db.Column(db.String(250))
     idade = db.Column(db.Integer)
@@ -30,13 +30,20 @@ class T_SIP_USUARIO(db.model):
     senha = db.Column(db.Float)
     peso = db.Column(db.Float)
     genero = db.Column(db.String(75))
-    data_nascimento = db.Column()
+    data_nascimento = db.Column(Date)
 
 
 
-@app.route('/usuario')
+
+@app.route('/usuario', methods = ['POST'])
 def usuario():
+
+    if request.method == 'POST':
+        ...
     return 'ola'
+
+
+
 
 
 
