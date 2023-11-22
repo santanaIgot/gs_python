@@ -2,6 +2,7 @@ import cx_Oracle
 from flask import Flask, render_template,request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy, Date
 from sqlalchemy import create_engine
+import datetime
 
 app = Flask(__name__)
 
@@ -23,7 +24,6 @@ class T_SIP_USUARIO(db.model):
     id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_usuario_endereco = db.Column(db.Integer, foreignKey = True, autoincrement = True)
     nm_completo = db.Column(db.String(250))
-    idade = db.Column(db.Integer)
     email = db.Column(db.String(200))
     telefone = db.Column(db.String(9))
     nm_usuario = db.Column(db.String(100))
@@ -37,10 +37,31 @@ class T_SIP_USUARIO(db.model):
 
 @app.route('/usuario', methods = ['POST'])
 def usuario():
+    try:
+     data = request.get_json()
+     novo_usuario = T_SIP_USUARIO(
+         nm_completo=data['nm_completo'],
+         idade=data['idade'],
+         email=data['email'],
+         telefone=data['telefone'],
+         nm_usuario=data['nm_usuario'],
+         senha=data['senha'],
+         peso=data['peso'],
+         genero=data['genero'],
+         data_nascimento=datetime.datetime.strptime(
+             data['data_nascimento'], '%Y-%m-%d').date()
+     )
+     db.session.add(novo_usuario)
+     db.session.commit()
+     return jsonify({'message':'Usuario adicionado com sucesso'}),201
+    except Exception as e:
+        return jsonify({'error': f'Erro ao adicionar usuário: {str(e)}'}), 500
 
-    if request.method == 'POST':
-        ...
-    return 'ola'
+       
+            
+
+
+
 
 
 
